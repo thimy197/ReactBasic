@@ -112,6 +112,10 @@
   padding-right: 13px;
 }
 
+.orders-link.active{
+  text-decoration: underline;
+}
+
 .header .orders-text {
   display: block;
   font-size: 15px;
@@ -123,6 +127,10 @@
   display: flex;
   align-items: center;
   position: relative;
+}
+
+.cart-link.active{
+  
 }
 
 .header .cart-icon {
