@@ -9,10 +9,8 @@ export function NotFound() {
             <title>Page Not Found</title>
             <Header />
             <div className="not-found-page">
-                <Link to="/">
-                    <a className="return-home-button link-primary">
+                <Link to="/" className="return-home-button link-primary">
                         Return to Home
-                    </a>
                 </Link>
                 <div className="not-found-message">
                     Oops! The page you are looking for does not exist.
