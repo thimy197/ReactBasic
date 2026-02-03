@@ -1,0 +1,20 @@
+.not-found-page {
+    max-width: 850px;
+    margin-top: 90px;
+    margin-bottom: 100px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.return-home-button {
+    text-decoration: underline;
+}
+
+.not-found-message {
+    margin-top: 30px;
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
