@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'http://localhost:3000'
       },
       '^/images/(?!favicons/)': {
+        // TODO except favicons
         target: 'http://localhost:3000'
       }
     }

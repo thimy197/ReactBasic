@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { formatMoney } from '../../utils/money.js';
 import { Header } from '../../Components/Header';
 import './Home.css';
 import CheckMarkImg from '../../assets/images/icons/checkmark.png';
 
-export function Home() {
+export function Home({ carts }) {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
-    const [carts, setCarts] = useState([]);
     useEffect(() => {
         // Make GET request to fetch data
         axios.get("/api/products")
@@ -18,20 +18,12 @@ export function Home() {
                 setError(err.message);
                 console.log(error);
             });
-
-        axios.get("/api/cart-items")
-            .then((response) => {
-                setCarts(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     }, []);
     return (
         <>
             <link rel="icon" type="image/svg+xml" href="images/favicons/home-favicon.png" />
             <title>Ecommerce Project</title>
-            <Header carts={carts}/>
+            <Header carts={carts} />
 
             <div className="home-page">
                 <div className="products-grid">
@@ -56,7 +48,7 @@ export function Home() {
                                 </div>
 
                                 <div className="product-price">
-                                    ${(product.priceCents / 100).toFixed(2)}
+                                    {formatMoney(product.priceCents)}
                                 </div>
 
                                 <div className="product-quantity-container">
