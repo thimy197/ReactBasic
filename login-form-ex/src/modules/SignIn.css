@@ -1,0 +1,42 @@
+/* welcome form */
+.sign-in-container {
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.password-container {
+  display: flex;
+}
+
+.text-input {
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-width: 1px;
+  margin: 5px 0px;
+
+  flex: 1;
+  /* chiếm hết không gian còn lại */
+}
+
+.hide-button {
+  cursor: pointer;
+  width: max-content;
+  white-space: nowrap;
+  /* không xuống dòng */
+  margin: auto;
+}
+
+.blue-button {
+  background-color: rgb(0, 123, 255);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px 0px;
+  margin-right: 5px;
+}

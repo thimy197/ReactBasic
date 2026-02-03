@@ -1,0 +1,16 @@
+.light-button {
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.on-light-button {
+  background-color: rgb(25, 135, 84);
+}
+
+.off-light-button {
+  background-color: rgb(220, 53, 69);
+}
