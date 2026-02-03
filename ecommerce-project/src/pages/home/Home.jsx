@@ -1,6 +1,7 @@
 import {Header} from '../../Components/Header';
 import {Link} from 'react-router';
 import './Home.css';
+import CheckMarkImg from '../../assets/images/icons/checkmark.png';
 
 export function Home() {
     return (
@@ -51,7 +52,7 @@ export function Home() {
                         <div className="product-spacer"></div>
 
                         <div className="added-to-cart">
-                            <img src="images/icons/checkmark.png" />
+                            <img src={CheckMarkImg} />
                             Added
                         </div>
 
@@ -100,7 +101,7 @@ export function Home() {
                         <div className="product-spacer"></div>
 
                         <div className="added-to-cart">
-                            <img src="images/icons/checkmark.png" />
+                            <img src={CheckMarkImg} />
                             Added
                         </div>
 
@@ -149,7 +150,7 @@ export function Home() {
                         <div className="product-spacer"></div>
 
                         <div className="added-to-cart">
-                            <img src="images/icons/checkmark.png" />
+                            <img src={CheckMarkImg} />
                             Added
                         </div>
 
