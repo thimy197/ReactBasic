@@ -1,3 +1,4 @@
+import {Link} from 'react-router';
 import './checkout-header.css';
 import './Checkout.css';
 
@@ -9,15 +10,15 @@ export function Checkout() {
             <div class="checkout-header">
                 <div class="header-content">
                     <div class="checkout-header-left-section">
-                        <a href="index.html">
+                        <Link to="/">
                             <img class="logo" src="images/logo.png" />
                             <img class="mobile-logo" src="images/mobile-logo.png" />
-                        </a>
+                        </Link>
                     </div>
 
                     <div class="checkout-header-middle-section">
-                        Checkout (<a class="return-to-home-link"
-                            href="index.html">3 items</a>)
+                        Checkout (<Link class="return-to-home-link"
+                            to="/">3 items</Link>)
                     </div>
 
                     <div class="checkout-header-right-section">

@@ -1,4 +1,5 @@
-import {Header} from '../Components/Header'
+import {Header} from '../Components/Header';
+import {Link} from 'react-router';
 import './Home.css';
 
 export function Home() {
