@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbox Async Ex</title>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <!-- simple chatbot -->
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+
+        function ChatInput(props) {
+            const [message, setChangeMessage] = props.chatList;
+            const [isLoading, setLoading] = props.isLoading;
+            // handle bot response if message have an waiting
+            async function getBotMessage(){
+                const lastUserMessage = message.at(-1);
+                console.log("Bot thinking..., message: "+lastUserMessage.text);
+                const response = await Chatbot.getResponseAsync(lastUserMessage.text);
+                setChangeMessage([
+                    ...message,
+                    { text: response, type: "bot", id: crypto.randomUUID() }
+                ]);
+                console.log("Bot completed");
+                setLoading(false);
+            }
+            if (isLoading){
+                getBotMessage();
+            }
+
+            // handle user message
+            const [newMessage, setNewMessage] = React.useState('');
+            function changeInput(event) {
+                setNewMessage(event.target.value);
+            }
+            function handleKey(event){
+                if (event.key === 'Enter'){
+                    sendMessageAsync();
+                } else if (event.key === 'Escape') {
+                    setNewMessage('');
+                }
+            }
+
+            function sendMessageAsync() {
+                setChangeMessage([
+                    ...message,
+                    { text: newMessage, type: "user", id: crypto.randomUUID() }
+                ]);
+                // reset input
+                setNewMessage('');
+                // tranfer to bot
+                setLoading(true);
+            }
+
+            return (
+                <div className="chat-container">
+                    <input type="text" placeholder="Type your message here..." 
+                        onChange={changeInput}
+                        value={newMessage}
+                        onKeyDown={handleKey}
+                        disabled={isLoading}
+                        />
+                    <button 
+                        onClick={sendMessageAsync} 
+                        disabled={isLoading}>Send</button>
+                </div>
+            );
+        }
+
+        function ChatBox(props) {
+            const msg = props.msg;
+            return (
+                <div>
+                    {msg.type === 'bot' && <img src="images/robot.png" height="30" width="30"/>}
+                    {msg.text}
+                    {msg.type === 'user' && <img src="images/user.png" height="30" width="30"/>}
+                </div>
+            );
+        }
+        function BotThinking() {
+            return (
+                <div>
+                    <img src="images/robot.png" height="30" width="30"/>
+                    Loading...
+                </div>
+            );
+        }
+        function UserChat(props) {
+            const [message] = props.chatList;
+            return message.map(msg => {
+                return (
+                    <ChatBox msg={msg} key={msg.id}/>
+                );
+            });
+        }
+
+        function App() {
+            const chatList = React.useState([]);
+            const isLoading = React.useState(false);
+            const [isLoadingVal] = isLoading;
+            return (
+                <div>
+                    <ChatInput chatList={chatList} isLoading={isLoading}/>
+                    <UserChat chatList={chatList}/>
+                    {isLoadingVal && <BotThinking/>}
+                </div>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+
+</html>

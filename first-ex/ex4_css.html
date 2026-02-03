@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exercise 3</title>
+    <style>
+        .light-button {
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .on-light-button {
+            background-color: rgb(25, 135, 84);
+        }
+        .off-light-button {
+            background-color: rgb(220, 53, 69);
+        }
+
+        /* welcome form */
+        .sign-in-container{
+            width: 300px;
+
+            display: flex;
+            flex-direction: column;
+        }
+        .password-container{
+            display: flex;
+        }
+        .text-input {
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-width: 1px;
+            margin: 5px 0px;
+            
+            flex: 1;/* chiếm hết không gian còn lại */
+        }
+        .hide-button{
+            cursor: pointer;
+            width: max-content;
+            white-space: nowrap;/* không xuống dòng */
+            margin: auto;
+        }
+        .blue-button{
+            background-color: rgb(0, 123, 255);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 10px 0px;
+            margin-right: 5px;
+        }
+        /* clicked component */
+        .clicked-container{
+            height: 400px;
+            background-color: rgb(222,222,222);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .clicked-container button{
+            background-color: rgb(25, 135, 84);
+            color: white;
+            margin: 2px 5px;
+            padding: 5px 10px;
+            border: none;
+            
+        }
+        </style>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+
+    <script type="text/babel">
+
+        function LightButton({isButtonOn}) {
+            var [isOn, setIsOn] = isButtonOn;
+            function onLight() {
+                setIsOn(!isOn);
+            }
+            return (
+                <button 
+                    className={`light-button ${isOn ? 'on-light-button' : 'off-light-button'}`}
+                    onClick={onLight}>{isOn ? 'ON' : 'OFF'}</button>
+            );
+        }
+        function SignIn({isHiden}) {
+            var [isHiden, setHide] = isHiden;
+            function hidePassword() {
+                setHide(!isHiden);
+            }
+            return (
+                <div className='sign-in-container'>
+                    <h3>Hello, welcome to my website</h3>
+                    <input 
+                        className='text-input'
+                        type='text' placeholder='Email'/>
+                    <div className='password-container'>
+                        <input 
+                            className='text-input'
+                            type={!isHiden?'text':'password'} placeholder='Password'/>
+                        <button 
+                            className='hide-button'
+                            onClick={hidePassword}>Hide</button>
+                    </div>
+                    <div>
+                        <button className='login-button blue-button'>Login</button>
+                        <button className='signup-button blue-button'>Sign up</button>
+                    </div>
+                </div>
+            );
+        }
+
+        function CurrentTime({time}) {
+            const [timeVal, setTime] = time;
+            //console.log("Component render");
+            React.useEffect(()=>{
+                //console.log("Effect re-render....");
+                const interval = setInterval(()=>{
+                    //console.log("Interval tick");
+                    var currDay = dayjs().format('HH:mm:ss');
+                    setTime(currDay);
+                }, 1000);
+                return () => clearInterval(interval);
+            },[]);
+            
+            return (
+                <p>{timeVal}</p>
+            );
+            /*
+            1. JSX render <p>
+            2. UI
+            3. useEffect([],[])// chỉ chạy 1 lần lúc create
+            4. setInterval()
+            5. sau 1s, State thay đổi -> re-render Component
+                Nhưng useEffect() KHÔNG chạy lại (vì [])
+            */
+        }
+        function Clicked({clickCount, autoState}) {
+            //console.log("Render Clicked component, isAuto: ", isAuto);
+            const [count, setCount] = clickCount;
+            const [isAuto, setAuto] = autoState;
+            const ref = React.useRef();
+
+            function increaseCount() {
+                //setCount(count + 1);// wrong, because count is stale value
+                setCount(prevCount => prevCount + 1);
+            }
+            function resetCount() {
+                setCount(0);
+                setAuto(false);
+            }
+            function autoClick() {
+                setAuto(true);
+            }
+            React.useEffect(()=>{
+                console.log("effect: ", isAuto); 
+                if (isAuto) {
+                    ref.current = setInterval(()=>{
+                        console.log("interval....");
+                        //setCount(count + 1);// wrong, because count is stale value
+                        setCount(prevCount => prevCount + 1);
+                    }, 1000);
+                } else {
+                    clearInterval(ref.current);
+                }
+            }, [isAuto]);
+            return (
+                <div className='clicked-container'>
+                    <button onClick={increaseCount}>Clicked {count} {count > 0?"times":"time"}</button>
+                    <button onClick={resetCount}>Reset</button>
+                    <button onClick={autoClick}>Auto Click</button>
+                </div>
+            );
+        }
+
+        function App(){
+            const isButtonOn = React.useState(false);
+            const isHiden = React.useState(true);
+
+            // time
+            const time = React.useState(dayjs().format('HH:mm:ss'));
+            //click
+            const clickCount = React.useState(0);
+            const autoState = React.useState(false);
+            //console.log("Render App component");
+            return (
+                <>
+                <LightButton isButtonOn={isButtonOn}/>
+                <hr/>
+                <SignIn isHiden={isHiden}/>
+                <hr/>
+                <CurrentTime time={time}/>
+                <hr/>
+                <Clicked clickCount={clickCount} autoState={autoState}/>
+                </>
+            );
+        }
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App/>);
+    </script>
+</body>
+
+</html>

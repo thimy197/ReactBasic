@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbox Ex</title>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+
+        function sendMessage() {
+            console.log("Message sent!");
+        }
+
+        function ChatInput() {
+            return (
+                <>
+                    <input type="text" placeholder="Type your message here..." />
+                    <button onClick={sendMessage}>Send</button>
+                </>
+            );
+        }
+
+        function ChatBox(props) {
+            const msg = props.msg;
+            return (
+                <div>
+                    {msg.type === 'bot' && <img src={msg.img} height="30" width="30"/>}
+                    {msg.text}
+                    {msg.type === 'user' && <img src={msg.img} height="30" width="30"/>}
+                </div>
+            );
+        }
+
+        function UserChat() {
+            const message = [
+                {text: "Hello chatbot", type: "user", img: "images/user.png", id: "1"},
+                {text: "Hello guys", type: "bot", img: "images/robot.png", id: "2"},
+                {text: "How can I help you?", type: "bot", img: "images/robot.png", id: "3"},
+                {text: "I need some information about your services.", type: "user", img: "images/user.png", id: "4"}
+            ];
+
+            const chatList = message.map(msg => {
+                return (
+                    <ChatBox msg={msg} key={msg.id}/>
+                );
+            });
+            return chatList;
+        }
+
+        function App() {
+            return (
+                <>
+                    <ChatInput />
+                    <UserChat />
+                </>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+        
+
+    </script>
+</body>
+
+</html>

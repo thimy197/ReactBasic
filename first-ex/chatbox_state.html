@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbox Ex</title>
+</head>
+
+<body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <!-- simple chatbot -->
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+
+        function ChatInput(props) {
+            // const chatList = props.chatList;
+            // const message = chatList[0];
+            // const setChangeMessage = chatList[1];
+            // const [message, setChangeMessage] = chatList;
+            const [message, setChangeMessage] = props.chatList;
+
+            const [newMessage, setNewMessage] = React.useState('');
+            function changeInput(event) {
+                setNewMessage(event.target.value);
+            }
+            function sendMessage() {
+                // State doesn't update immediately => add all new messages into a array
+                const arrNewChat = [];
+                arrNewChat.push({ text: newMessage, type: "user", id: crypto.randomUUID() });
+
+                // use ChatBot library to get response
+                const response = Chatbot.getResponse(newMessage);
+                arrNewChat.push({ text: response, type: "bot", id: crypto.randomUUID() });
+                
+                setChangeMessage([
+                    ...message,
+                    ...arrNewChat
+                ]);
+
+                // reset input
+                setNewMessage('');
+            }
+
+            function sendMessageTest() {
+                // try => similar with sendMessage()
+                const addUserChat = [
+                    ...message,
+                    { text: newMessage, type: "user", id: crypto.randomUUID() }
+                ];
+                const response = Chatbot.getResponse(newMessage);
+                setChangeMessage([
+                    ...addUserChat,
+                    { text: response, type: "bot", id: crypto.randomUUID() }
+                ]);
+
+                // reset input
+                setNewMessage('');
+            }
+
+            return (
+                <>
+                    <input type="text" placeholder="Type your message here..." 
+                        onChange={changeInput}
+                        value={newMessage}
+                        />
+                    <button onClick={sendMessage}>Send</button>
+                </>
+            );
+        }
+
+        function ChatBox(props) {
+            const msg = props.msg;
+            return (
+                <div>
+                    {msg.type === 'bot' && <img src="images/robot.png" height="30" width="30"/>}
+                    {msg.text}
+                    {msg.type === 'user' && <img src="images/user.png" height="30" width="30"/>}
+                </div>
+            );
+        }
+
+        function UserChat(props) {
+            const [message] = props.chatList;
+
+            return message.map(msg => {
+                return (
+                    <ChatBox msg={msg} key={msg.id}/>
+                );
+            });
+        }
+
+        function App() {
+            const chatList = React.useState([
+                { text: "Hello chatbot", type: "user", id: "1" },
+                { text: "Hello guys", type: "bot", id: "2" },
+                { text: "How can I help you?", type: "bot", id: "3" },
+                { text: "I need some information about your services.", type: "user", id: "4" }
+            ]);
+            return (
+                <>
+                    <ChatInput chatList={chatList}/>
+                    <UserChat chatList={chatList}/>
+                </>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+        
+
+    </script>
+</body>
+
+</html>

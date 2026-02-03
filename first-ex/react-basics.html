@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>React Basics</title>
+</head>
+
+<body>
+    <div class="js-container"></div>
+    <hr/>
+    <div class="ex-container"></div>
+    <hr/>
+    <div class="cal-container"></div>
+    <hr/>
+    <div class="lock-container"></div>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+        const container = document.querySelector('.js-container');
+        //ReactDOM.createRoot(container).render('Welcome to SuperSimpleDev React Course');
+        const heading = <h1>Welcome to SuperSimpleDev React Course</h1>;//simple JSX
+        //ReactDOM.createRoot(container).render(heading);
+        const button = (
+            <div>
+                <button>Click me</button>
+                <p>This is a simple React button, count: {2 + 2}</p>
+            </div>
+        );//JSX + insert value
+        ReactDOM.createRoot(container).render(button);
+
+        // exercises
+        const exContainer = document.querySelector('.ex-container');
+        const buttonExercise = (
+            <div>
+                <button>Good Job</button>
+            </div>
+        );
+        const name = 'John Doe';
+        const paragraphExercise = <p>My name is {name}</p>;
+        const groupExercise = (
+            <div>
+                <p>Cotton socks</p>
+                <p>Price: $5</p>
+                <button>Add to cart</button>
+            </div>
+        );
+        // wrong way to render multiple components
+        // ReactDOM.createRoot(exContainer).render(buttonExercise).render()(paragraphExercise).render(groupExercise);
+        // correct way to render multiple components
+        ReactDOM.createRoot(exContainer).render(
+            <div>
+                {buttonExercise}
+                {paragraphExercise}
+                {groupExercise}
+            </div>
+        );
+
+        const sockPrice = 10;
+        const tshirtPrice = 8;
+        const currTime = dayjs().format('HH:mm:ss');
+        const currDay = dayjs().format('MMMM D, YYYY');
+        const calContainer = document.querySelector('.cal-container');
+        ReactDOM.createRoot(calContainer).render(
+            <div>
+                <h2>Shopping Cart</h2>
+                <p>Date: {currTime} {currDay}</p>
+                <p>Cotton socks: {1} ${sockPrice}</p>
+                <p>Basic T-shirt: {2} ${tshirtPrice}</p>
+                <p>Product cost: ${sockPrice + 2*tshirtPrice}</p>
+            </div>
+        );
+
+        const lockContainer = document.querySelector('.lock-container');
+        const lockRoot = ReactDOM.createRoot(lockContainer);
+        setInterval(() => {
+            const resetTime = dayjs().format('HH:mm:ss');
+            lockRoot.render(
+                <div>
+                    <p>Current Time: {resetTime}</p>
+                </div>
+            );
+        }, 1000)
+
+    </script>
+</body>
+
+</html>
