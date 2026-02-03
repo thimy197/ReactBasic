@@ -10,7 +10,7 @@ export function Home() {
     const [carts, setCarts] = useState([]);
     useEffect(() => {
         // Make GET request to fetch data
-        axios.get("http://localhost:3000/api/products")
+        axios.get("/api/products")
             .then((response) => {
                 setProducts(response.data);
             })
@@ -19,7 +19,7 @@ export function Home() {
                 console.log(error);
             });
 
-        axios.get("http://localhost:3000/api/cart-items")
+        axios.get("/api/cart-items")
             .then((response) => {
                 setCarts(response.data);
             })
