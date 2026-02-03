@@ -1,0 +1,18 @@
+
+.chat-message-container {
+  flex-grow: 1;
+  overflow: scroll;
+  scrollbar-width: none;
+
+}
+
+.chat-message-profile {
+  width: 45px;
+  height: 45px;
+}
+
+.welcome-message {
+  text-align: center;
+  color: gray;
+  margin-top: 20px;
+}

@@ -1,0 +1,10 @@
+/* center the chatbox */
+.chatbox {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
