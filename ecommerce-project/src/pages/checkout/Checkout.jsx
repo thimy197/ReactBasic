@@ -5,7 +5,7 @@ import axios from 'axios';
 import { OrderSummary } from './OrderSummary.jsx';
 import { PaymentSummary } from './PaymentSummary.jsx';
 
-export function Checkout({ carts }) {
+export function Checkout({ carts, loadCart }) {
 
     const [deliveryOptions, setDeliveryOptions] = useState([]);
     const [paymentSummary, setPaymentSummary] = useState([]);
@@ -22,7 +22,7 @@ export function Checkout({ carts }) {
             }
         }
         fetchDelivery();
-    }, []);
+    }, [carts]);
 
     return (
         <>
@@ -34,7 +34,7 @@ export function Checkout({ carts }) {
                 <div className="page-title">Review your order</div>
 
                 <div className="checkout-grid">
-                    <OrderSummary carts={carts} deliveryOptions={deliveryOptions} />
+                    <OrderSummary carts={carts} deliveryOptions={deliveryOptions} loadCart={loadCart} />
                     <PaymentSummary paymentSummary={paymentSummary} />
                 </div>
             </div>
