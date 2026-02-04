@@ -29,7 +29,7 @@ export function Checkout({ carts }) {
             <link rel="icon" type="image/svg+xml" href="images/favicons/cart-favicon.png" />
             <title>Checkout</title>
 
-            <CheckoutHeader />
+            <CheckoutHeader carts={carts} />
             <div className="checkout-page">
                 <div className="page-title">Review your order</div>
 
