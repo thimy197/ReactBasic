@@ -8,15 +8,19 @@ export function Home({ carts }) {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     useEffect(() => {
-        // Make GET request to fetch data
-        axios.get("/api/products")
-            .then((response) => {
-                setProducts(response.data);
-            })
-            .catch((err) => {
+        const response = async () => {
+            try {
+                const res = await axios.get("/api/products");
+                if (res.data.length === 0) {
+                    throw new Error("No products");
+                }
+                setProducts(res.data);
+            } catch (err) {
                 setError(err.message);
                 console.log(error);
-            });
+            }
+        }
+        response();
     }, []);
     return (
         <>

@@ -10,14 +10,15 @@ import BuyAgainImg from '../../assets/images/icons/buy-again.png';
 export function Orders({ carts }) {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    // Make GET request to fetch data
-    axios.get("/api/orders?expand=products")
-      .then((response) => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("/api/orders?expand=products");
         setOrders(response.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
+      }
+    }
+    fetchProducts();
   }, []);
   return (
     <>

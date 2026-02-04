@@ -10,22 +10,18 @@ export function Checkout({ carts }) {
     const [deliveryOptions, setDeliveryOptions] = useState([]);
     const [paymentSummary, setPaymentSummary] = useState([]);
     useEffect(() => {
-        // Make GET request to fetch data
-        axios.get("/api/delivery-options?expand=estimatedDeliveryTime")
-            .then((response) => {
+        const fetchDelivery = async () => {
+            try {
+                const response = await axios.get("/api/delivery-options?expand=estimatedDeliveryTime");
                 setDeliveryOptions(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
 
-        axios.get("/api/payment-summary")
-            .then((response) => {
-                setPaymentSummary(response.data);
-            })
-            .catch((err) => {
+                const paymentRes = await axios.get("/api/payment-summary");
+                setPaymentSummary(paymentRes.data);
+            } catch (err) {
                 console.log(err);
-            });
+            }
+        }
+        fetchDelivery();
     }, []);
 
     return (
