@@ -1,6 +1,11 @@
 import dayjs from 'dayjs';
-const DAY_FORMAT = 'dddd, MMMM D';
+export const DoW_M_D_FORMAT = 'dddd, MMMM D';
+export const M_D_FORMAT = 'MMMM D';
 
 export function formatDate(dateTimestamp) {
-    return dayjs(dateTimestamp).format(DAY_FORMAT);
+    return dayjs(dateTimestamp).format(DoW_M_D_FORMAT);
+}
+
+export function formatDateFormat(dateTimestamp, format) {
+    return dayjs(dateTimestamp).format(format);
 }
