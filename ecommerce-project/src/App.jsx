@@ -9,6 +9,10 @@ import { NotFound } from './pages/NotFound/404NotFound';
 import './App.css';
 
 function App() {
+
+  // Exposing Axios to the Console
+  // window.axios = axios;
+
   const [carts, setCarts] = useState([]);
 
   const loadCart = async () => {
@@ -24,7 +28,7 @@ function App() {
     <Routes>
       <Route index element={<Home carts={carts} loadCart={loadCart} />} />
       <Route path='checkout' element={<Checkout carts={carts} loadCart={loadCart} />} />
-      <Route path='orders' element={<Orders carts={carts} />} />
+      <Route path='orders' element={<Orders carts={carts} loadCart={loadCart} />} />
       <Route path='tracking/:orderId/:productId' element={<Tracking carts={carts} />} />
       <Route path='*' element={<NotFound carts={carts} />} />
     </Routes>
