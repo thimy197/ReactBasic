@@ -22,3 +22,21 @@ export function getShippingStatusByPercent(deliveryPercent) {
         return DELIVERED;
     }
 }
+
+/**
+ * check empty for value
+ * note: 
+ * !value -> (null, undefined, "", 0, false): check falsy
+ * !value?.trim() -> (null + empty + space)
+ *  */
+export function isEmpty(value) {
+    return (
+        value === null ||
+        value === undefined ||
+        (typeof value === "string" && value.trim() === "") ||
+        (Array.isArray(value) && value.length === 0) ||
+        (typeof value === "object" &&
+            !Array.isArray(value) &&
+            Object.keys(value).length === 0)
+    );
+};

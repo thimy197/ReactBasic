@@ -3,30 +3,32 @@ import axios from 'axios';
 import { Header } from '../../Components/Header';
 import { ProductGrid } from './ProductGrid.jsx';
 import './Home.css';
+import { useSearchParams } from 'react-router';
 
 export function Home({ carts, loadCart }) {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
-    useEffect(() => {
-        const response = async () => {
-            try {
-                const res = await axios.get("/api/products");
-                if (res.data.length === 0) {
-                    throw new Error("No products");
-                }
-                setProducts(res.data);
-            } catch (err) {
-                setError(err.message);
-                console.log(error);
-            }
+    const [searchParams] = useSearchParams();
+    const search = searchParams.get('search');
+
+    const getProducts = async () => {
+        try {
+            const url = (search === null && !search) ? `/api/products` : `/api/products?search=${search}`;
+            const res = await axios.get(url);
+            setProducts(res.data);
+        } catch (err) {
+            setError(err.message);
+            console.log(error);
         }
-        response();
-    }, []);
+    }
+    useEffect(() => {
+        getProducts();
+    }, [search]);// Query param -> re-fetch
     return (
         <>
             <link rel="icon" type="image/svg+xml" href="images/favicons/home-favicon.png" />
             <title>Ecommerce Project</title>
-            <Header carts={carts} />
+            <Header carts={carts} searchParam={search} />
 
             <div className="home-page">
                 <ProductGrid products={products} loadCart={loadCart} />
